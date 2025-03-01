@@ -190,3 +190,8 @@ window.onload = function () {
 
 
 
+function scrollToBooking() {
+    document.getElementById("booking-section").scrollIntoView({
+        behavior: "smooth"
+    });
+}
