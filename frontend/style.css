@@ -1,0 +1,235 @@
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+}
+.sidebar {
+    height: 100vh;
+    width: 260px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #ff7700;
+    color: white;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+.sidebar h3 img {
+    width: 150px;
+    margin-bottom: 30px;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar ul li {
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.sidebar ul li:hover {
+    background: white;
+    color: #ff7700;
+    border-radius: 10px;
+}
+.sidebar ul li i {
+    font-size: 20px;
+}
+.main-content {
+    margin-left: 260px;
+    padding: 20px;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 260px;
+    right: 0;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+}
+.navbar .username {
+    color: #ff7700;
+    font-weight: bold;
+}
+.navbar button {
+    background: #ff7700;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+#content {
+    margin-top: 70px;
+    background: white;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background: #FF5733;
+    color: white;
+}
+.footer-section h3 {
+    margin-bottom: 10px;
+}
+.footer-section a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin: 5px 0;
+}
+.footer-section a:hover {
+    text-decoration: underline;
+}
+
+
+.signup-link {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+}
+/* GoTrack Auth Page CSS */
+.auth-container {
+    max-width: 600px;
+    margin: 70px auto;
+    padding: 50px;
+    background: linear-gradient(145deg, #ffffff, #f3f3f3);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    border-radius: 25px;
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.auth-container h2 {
+    font-size: 32px;
+    color: #1d3557;
+    margin-bottom: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    color: #333333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    transition: border 0.3s;
+}
+
+.form-control:focus {
+    border: 1px solid #1d3557;
+    outline: none;
+    box-shadow: 0 0 12px rgba(29, 53, 87, 0.5);
+}
+
+button[type='submit'] {
+    background: #1d3557;
+    color: #ffffff;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    cursor: pointer;
+}
+
+button[type='submit']:hover {
+    background: #457b9d;
+}
+
+.social-login button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 12px;
+    padding: 12px;
+    border: none;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.social-login button i {
+    margin-right: 12px;
+    font-size: 20px;
+}
+
+.signup-link {
+    color: #1d3557;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.signup-link:hover {
+    color: #457b9d;
+}
+
+.success-message {
+    padding: 50px;
+    background: #1d3557;
+    color: #ffffff;
+    font-size: 28px;
+    border-radius: 25px;
+    text-align: center;
+    margin-top: 70px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.success-message {
+    color: green;
+    font-size: 20px;
+    text-align: center;
+}
+
+.error-message {
+    color: red;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+button[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
