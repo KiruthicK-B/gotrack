@@ -11,13 +11,13 @@
 <body>
     <div class="sidebar">
         <h3><img src="logo.jpg" alt="GoTrack"></h3>
-        <ul>
-            <li><i class="fas fa-home"></i> Home</li>
-            <li><i class="fas fa-bus"></i> Booking</li>
-            <li><i class="fas fa-map"></i> Track Bus</li>
-            <li onclick="scrollToFooter()"><i class="fas fa-phone"></i> Contact Us</li>
-            <li><i class="fas fa-user"></i> Sign Up / Sign In</li>
-        </ul>
+     <ul>
+    <li><i class="fas fa-home"></i> Home</li>
+    <li><i class="fas fa-bus"></i> Booking</li>
+    <li><i class="fas fa-map"></i> Track Bus</li>
+    <li onclick="scrollToFooter()"><i class="fas fa-phone"></i> Contact Us</li>
+    <li><i class="fas fa-user"></i> Sign Up / Sign In</li>
+</ul>
     </div>
     
     <div class="main-content">

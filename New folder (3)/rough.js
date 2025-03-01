@@ -20,14 +20,14 @@ function loadAuthPage() {
     content.innerHTML = `
         <div class="auth-container animate__animated animate__fadeIn">
             <h2>Sign In</h2>
-            <form onsubmit="return handleSignIn(event)">
+            <form onsubmit="return handleSignIn(event)" action="api.php">
                 <div class="form-group">
                     <label>Email:</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email" required>
                 </div>
                 <div class="form-group">
                     <label>Password:</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password" required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Sign In</button>
             </form>
@@ -97,7 +97,7 @@ function showSignupForm(userType) {
             </div>
             <div class="form-group">
                 <label>Intermediate Stops:</label>
-                <textarea class="form-control" placeholder="Enter Stops Separated by Commas"></textarea>
+                <textarea class="form-control" name="" placeholder="Enter Stops Separated by Commas"></textarea>
             </div>
         `;
     }
@@ -105,7 +105,7 @@ function showSignupForm(userType) {
     content.innerHTML = `
         <div class="auth-container animate__animated animate__fadeIn">
             <h2>${userType} Sign Up</h2>
-            <form onsubmit="return handleSignUp(event, '${userType}')">
+            <form onsubmit="return handleSignUp(event, '${userType}')" action="api.php">
                 <div class="form-group">
                     <label>Name:</label>
                     <input type="text" class="form-control" placeholder="Enter your name" required>
@@ -120,20 +120,53 @@ function showSignupForm(userType) {
         </div>
     `;
 }
-
 function handleSignIn(e) {
     e.preventDefault();
-    const email = e.target[0].value;
-    username.innerHTML = `Welcome, ${email.split("@")[0]}`;
-    showSuccessMessage("Login Successful 🚀");
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    fetch("auth.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `action=signin&email=${email}&password=${password}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+            username.innerHTML = `Welcome, ${email.split("@")[0]}`;
+            showSuccessMessage("Login Successful 🚀");
+        } else {
+            showSuccessMessage(data.message);
+        }
+    })
+    .catch(err => console.error(err));
 }
+
 
 function handleSignUp(e, userType) {
     e.preventDefault();
-    const name = e.target[0].value;
-    username.innerHTML = `Welcome, ${name}`;
-    showSuccessMessage(`${userType} Signup Successful 🎯`);
+    const formData = new FormData(e.target);
+    formData.append("action", userType === "Passenger" ? "register_passenger" : "register_driver");
+
+    fetch("api.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+            username.innerHTML = `Welcome, ${formData.get("name")}`;
+            showSuccessMessage(`${userType} Signup Successful 🎯`);
+        } else {
+            showSuccessMessage("Signup Failed ❌");
+        }
+    })
+    .catch(err => console.error(err));
 }
+
+
 
 function showSuccessMessage(msg) {
     content.innerHTML = `
