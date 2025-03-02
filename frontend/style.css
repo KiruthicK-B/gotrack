@@ -442,3 +442,26 @@ small {
         align-items: center;
     }
 }
+
+
+.container {
+    display: flex;
+    gap: 20px; /* Spacing between cards */
+}
+
+.card {
+    width: 250px;
+    padding: 20px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}

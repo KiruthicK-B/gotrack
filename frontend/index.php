@@ -71,7 +71,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <img src="book.jpeg" alt="Bus Ticket Booking" class="img-fluid w-100 rounded shadow">
+                <img src="book.png" alt="Bus Ticket Booking" class="img-fluid w-100 rounded shadow">
             </div>
         
             <section class="promo-section">
