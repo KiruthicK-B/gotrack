@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoTrack - Booking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .booking-container {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .booking-info {
+            margin-bottom: 25px;
+        }
+        .booking-field {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        .booking-label {
+            width: 150px;
+            font-weight: bold;
+        }
+        .booking-value {
+            flex-grow: 1;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .booking-details {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .confirm-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .back-btn {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        .sidebar ul a{
+        text-decoration: none;
+        }
+
+        /* Styles for the bus seat UI */
+        .bus-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .seats {
+            display: grid;
+            grid-template-columns: repeat(6, 40px); /* Adjust number of columns as needed */
+            grid-gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .seat {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+
+        .seat.available {
+            background-color: white;
+        }
+
+        .seat.occupied {
+            background-color: red;
+            cursor: not-allowed;
+        }
+
+        .seat.booked {
+            background-color: blue;
+            cursor: not-allowed;
+            color: white;
+        }
+
+        .seat.selected {
+            background-color: green;
+            color: white;
+        }
+
+        .seat-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        .legend-available .legend-color {
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+
+        .legend-occupied .legend-color {
+            background-color: red;
+        }
+
+        .legend-booked .legend-color {
+            background-color: blue;
+        }
+
+        .legend-selected .legend-color {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3><img src="logo.jpg" alt="GoTrack"></h3>
+        <ul>
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </li>
+            <li>
+                <i class="fas fa-bus"></i> Book Bus
+            </li>
+            <li><i class="fas fa-map"></i> Track Bus</li>
+            <li>
+                <a href="Search.html">
+                    <i class="fas fa-bus"></i> Search Bus
+                </a>
+            </li>
+            <li><i class="fas fa-user" ></i> Sign Up / Sign In</li>
+        </ul>
+    </div>
+    <div class="booking-container">
+        <h1 id="bookingTitle">Booking Details</h1>
+
+        <div class="booking-info">
+            <div class="booking-field">
+                <div class="booking-label">Route ID:</div>
+                <div id="routeId" class="booking-value"></div>
+            </div>
+
+            <div class="booking-field">
+                <div class="booking-label">From:</div>
+                <div id="fromLocation" class="booking-value"></div>
+            </div>
+
+            <div class="booking-field">
+                <div class="booking-label">To:</div>
+                <div id="toLocation" class="booking-value"></div>
+            </div>
+        </div>
+
+        <!-- Bus Seat UI -->
+        <div class="bus-container">
+            <h2>Select Your Seats</h2>
+            <div class="seats" id="busSeats">
+                <!-- Seats will be generated here -->
+            </div>
+
+            <div class="seat-legend">
+                <div class="legend-item legend-available">
+                    <div class="legend-color"></div> Available
+                </div>
+                <div class="legend-item legend-occupied">
+                    <div class="legend-color"></div> Occupied
+                </div>
+                <div class="legend-item legend-booked">
+                    <div class="legend-color"></div> Booked
+                </div>
+                <div class="legend-item legend-selected">
+                    <div class="legend-color"></div> Your Selection
+                </div>
+            </div>
+        </div>
+
+        <div class="booking-details">
+            <h2>Passenger Information</h2>
+
+            <div class="booking-field">
+                <div class="booking-label">Full Name:</div>
+                <input type="text" class="booking-value" placeholder="Enter your full name">
+            </div>
+
+            <div class="booking-field">
+                <div class="booking-label">Email:</div>
+                <input type="email" class="booking-value" placeholder="Enter your email">
+            </div>
+
+            <div class="booking-field">
+                <div class="booking-label">Phone:</div>
+                <input type="tel" class="booking-value" placeholder="Enter your phone number">
+            </div>
+
+            <div class="booking-field">
+                <div class="booking-label">Number of Tickets:</div>
+                <input type="number" class="booking-value" min="1" value="1" id="numTickets">
+            </div>
+
+            <div class="booking-field">
+                <div class="booking-label">Promo Code:</div>
+                <input type="text" class="booking-value" placeholder="Enter promo code (optional)">
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="button back-btn" onclick="goBack()">Back to Search</button>
+            <button class="button confirm-btn" onclick="confirmBooking()">Confirm Booking</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to get URL parameters
+        function getUrlParams() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            return {
+                id: urlParams.get('id'),
+                from: urlParams.get('from'),
+                to: urlParams.get('to')
+            };
+        }
+
+        // Function to load route data
+        function loadRouteData() {
+            const params = getUrlParams();
+
+            // Set the page title with route information
+            document.title = `Booking: ${params.from} to ${params.to}`;
+
+            // Set the heading with route ID and locations
+            document.getElementById('bookingTitle').textContent =
+                `Booking for Route #${params.id}: ${params.from} to ${params.to}`;
+
+            // Fill in the route information
+            document.getElementById('routeId').textContent = params.id;
+            document.getElementById('fromLocation').textContent = params.from;
+            document.getElementById('toLocation').textContent = params.to;
+        }
+
+        // Function to go back to search page
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+
+        //Bus Seat Selection Logic
+        const busSeatsContainer = document.getElementById('busSeats');
+        let selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
+        let bookedSeats = JSON.parse(localStorage.getItem('bookedSeats')) || [2, 3]; //Example booked seats
+        let occupiedSeats = JSON.parse(localStorage.getItem('occupiedSeats')) || [15, 16, 21, 22]; //Example occupied seats
+        const totalSeats = 24; // Total number of seats in the bus
+
+        function generateSeats() {
+            for (let i = 1; i <= totalSeats; i++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.textContent = i; // Seat Number
+
+                if (occupiedSeats.includes(i)) {
+                    seat.classList.add('occupied');
+                } else if (bookedSeats.includes(i)) {
+                    seat.classList.add('booked');
+                } else if (selectedSeats.includes(i)) {
+                    seat.classList.add('selected');
+                    seat.classList.remove('available');
+                } else {
+                    seat.classList.add('available');
+                }
+
+                seat.addEventListener('click', () => toggleSeat(i, seat));
+
+
+                busSeatsContainer.appendChild(seat);
+            }
+        }
+
+
+       function toggleSeat(seatNumber, seatElement) {
+            const numTickets = parseInt(document.getElementById('numTickets').value);
+
+            if (occupiedSeats.includes(seatNumber) || bookedSeats.includes(seatNumber)) {
+                // Do nothing if the seat is occupied or booked
+                return;
+            }
+
+            if (selectedSeats.length < numTickets || selectedSeats.includes(seatNumber)) {
+
+                if (selectedSeats.includes(seatNumber)) {
+                    // Deselect seat
+                    selectedSeats = selectedSeats.filter(seat => seat !== seatNumber);
+                    seatElement.classList.remove('selected');
+                    seatElement.classList.add('available'); // Revert to available style
+
+                } else {
+                    // Select seat
+                    selectedSeats.push(seatNumber);
+                    seatElement.classList.remove('available'); // Remove available style
+                    seatElement.classList.add('selected');
+                }
+            } else {
+                alert(`You can only select up to ${numTickets} seats.`);
+            }
+
+            // Update local storage
+            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+        }
+
+        function confirmBooking() {
+            if (selectedSeats.length === 0) {
+                alert('Please select at least one seat before confirming.');
+                return;
+            }
+
+            //Here you'd handle the actual booking process
+            alert(`Booking confirmed for seats: ${selectedSeats.join(', ')}`);
+
+            // Optionally, update the UI to show these seats as booked
+            selectedSeats.forEach(seatNumber => {
+                const seatElement = document.querySelector(`#busSeats div:nth-child(${seatNumber})`);
+                seatElement.classList.remove('selected', 'available');
+                seatElement.classList.add('booked');
+                seatElement.removeEventListener('click', () => toggleSeat(seatNumber, seatElement));
+            });
+
+            // Move selected seats to booked seats
+            bookedSeats = bookedSeats.concat(selectedSeats);
+            selectedSeats = [];
+
+            // Update local storage
+            localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+            localStorage.setItem('bookedSeats', JSON.stringify(bookedSeats));
+            updateSeatClasses();
+
+            // Clear the selected seats array
+            selectedSeats = [];
+        }
+
+         function updateSeatClasses() {
+            const seats = document.querySelectorAll('.seat');
+            seats.forEach((seat, index) => {
+                const seatNumber = index + 1;
+                seat.classList.remove('available', 'selected', 'booked', 'occupied');
+
+                if (occupiedSeats.includes(seatNumber)) {
+                    seat.classList.add('occupied');
+                    seat.removeEventListener('click', () => toggleSeat(seatNumber, seat)); // Remove click listener
+                } else if (bookedSeats.includes(seatNumber)) {
+                    seat.classList.add('booked');
+                    seat.removeEventListener('click', () => toggleSeat(seatNumber, seat)); // Remove click listener
+                } else if (selectedSeats.includes(seatNumber)) {
+                    seat.classList.add('selected');
+                } else {
+                    seat.classList.add('available');
+                }
+            });
+        }
+
+        // Load route data when page loads
+        window.onload = () => {
+            loadRouteData();
+            generateSeats();
+        };
+    </script>
+</body>
+</html>
