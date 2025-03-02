@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GoTrack</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .booking-container {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .booking-info {
+            margin-bottom: 25px;
+        }
+        .booking-field {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        .booking-label {
+            width: 150px;
+            font-weight: bold;
+        }
+        .booking-value {
+            flex-grow: 1;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .booking-details {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .confirm-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .back-btn {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        .sidebar ul a{
+        text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3><img src="logo.jpg" alt="GoTrack"></h3>
+        <ul>
+            <li>
+                <a href="index.html">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </li> 
+            <li>
+                    <i class="fas fa-bus"></i> Book Bus
+            </li>
+            <li><i class="fas fa-map"></i> Track Bus</li>
+            <li>
+                <a href="Search.html">
+                    <i class="fas fa-bus"></i> Search Bus
+                </a>
+            </li>            
+            <li><i class="fas fa-user" ></i> Sign Up / Sign In</li>
+        </ul>
+    </div>
+    <div class="booking-container">
+        <h1 id="bookingTitle">Booking Details</h1>
+        
+        <div class="booking-info">
+            <div class="booking-field">
+                <div class="booking-label">Route ID:</div>
+                <div id="routeId" class="booking-value"></div>
+            </div>
+            
+            <div class="booking-field">
+                <div class="booking-label">From:</div>
+                <div id="fromLocation" class="booking-value"></div>
+            </div>
+            
+            <div class="booking-field">
+                <div class="booking-label">To:</div>
+                <div id="toLocation" class="booking-value"></div>
+            </div>
+        </div>
+        
+        <div class="booking-details">
+            <h2>Passenger Information</h2>
+            
+            <div class="booking-field">
+                <div class="booking-label">Full Name:</div>
+                <input type="text" class="booking-value" placeholder="Enter your full name">
+            </div>
+            
+            <div class="booking-field">
+                <div class="booking-label">Email:</div>
+                <input type="email" class="booking-value" placeholder="Enter your email">
+            </div>
+            
+            <div class="booking-field">
+                <div class="booking-label">Phone:</div>
+                <input type="tel" class="booking-value" placeholder="Enter your phone number">
+            </div>
+            
+            <div class="booking-field">
+                <div class="booking-label">Number of Tickets:</div>
+                <input type="number" class="booking-value" min="1" value="1">
+            </div>
+            
+            <div class="booking-field">
+                <div class="booking-label">Promo Code:</div>
+                <input type="text" class="booking-value" placeholder="Enter promo code (optional)">
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="button back-btn" onclick="goBack()">Back to Search</button>
+            <button class="button confirm-btn">Confirm Booking</button>
+        </div>
+    </div>
+    
+    <script>
+        // Function to get URL parameters
+        function getUrlParams() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            return {
+                id: urlParams.get('id'),
+                from: urlParams.get('from'),
+                to: urlParams.get('to')
+            };
+        }
+        
+        // Function to load route data
+        function loadRouteData() {
+            const params = getUrlParams();
+            
+            // Set the page title with route information
+            document.title = `Booking: ${params.from} to ${params.to}`;
+            
+            // Set the heading with route ID and locations
+            document.getElementById('bookingTitle').textContent = 
+                `Booking for Route #${params.id}: ${params.from} to ${params.to}`;
+            
+            // Fill in the route information
+            document.getElementById('routeId').textContent = params.id;
+            document.getElementById('fromLocation').textContent = params.from;
+            document.getElementById('toLocation').textContent = params.to;
+        }
+        
+        // Function to go back to search page
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+        
+        // Load route data when page loads
+        window.onload = loadRouteData;
+    </script>
+</body>
+</html>
