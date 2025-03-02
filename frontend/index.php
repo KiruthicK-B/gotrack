@@ -15,43 +15,84 @@
             <li><i class="fas fa-home"></i> Home</li>
             <li><i class="fas fa-bus"></i> Booking</li>
             <li><i class="fas fa-map"></i> Track Bus</li>
-            <li onclick="scrollToFooter()"><i class="fas fa-phone"></i> Contact Us</li>
-            <li><i class="fas fa-user"></i> Sign Up / Sign In</li>
+            <li onclick="scrollToFooter()"><i class="fas fa-bus"></i> Search Bus</li>
+            <li><i class="fas fa-user" ></i> Sign Up / Sign In</li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="navbar">
             <span class="username">Welcome, UserName</span>
-            <button>Logout</button>
+            <div class="button-group">
+    <button class="booking-btn">My Bookings</button>
+    <button class="query-btn">Have Queries?</button>
+</div>
+
+            
         </div>
-
-        <!-- <div id="content">
-            <h1>Welcome to GoTrack</h1>
-            <p>Your real-time bus tracking platform.</p>
-        </div> -->
-<br><br><br><br>
-
+        <div id="content">
+        </div>
         <div class="home-content py-5">
     <div class="container text-center">
         <div class="row align-items-center">
+        <section class="stats">
+                <div class="stat-card">
+                    <div class="stat-icon stat-orange">👥</div>
+                    <div class="stat-text">
+                        <h3>500K+</h3>
+                        <p>Registered users</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon stat-blue">🎫</div>
+                    <div class="stat-text">
+                        <h3>17 Lakhs</h3>
+                        <p>Tickets sold</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon stat-orange">🚌</div>
+                    <div class="stat-text">
+                        <h3>80K+</h3>
+                        <p>Successful travels</p>
+                    </div>
+                </div>
+            </section>
             <!-- Text Section -->
             <div class="col-md-6">
                 <div class="text-content">
-                    <h2 class="display-3 fw-bold">Book Your Tickets Instantly!</h2>
+                    <h3 class="display-3 fw">Book Your Tickets Instantly!</h3>
                     <p class="lead">
                         Travel smarter with <strong>GoTrack</strong>! Enjoy **real-time seat availability, instant confirmation, and live route tracking** for a hassle-free journey. 
-                        Unlock exclusive deals, early-bird discounts, and last-minute offers tailored just for you.
                         Avoid long queues and book your ticket in seconds with a **seamless online experience**.
-                        <span class="text-success fw-bold">Use code <u>GOTRACK20</u> to get 20% OFF on your first ride!</span>
+                        <br><span class="text-success fw-bold">Use code <u>GOTRACK20</u> to get 20% OFF on your first ride!</span>
                     </p>
                     <button class="btn btn-lg btn-primary mt-4" onclick="scrollToBooking()">Book Tickets Now →</button>
                 </div>
             </div>
-            <!-- Image Section -->
             <div class="col-md-6">
                 <img src="book.jpeg" alt="Bus Ticket Booking" class="img-fluid w-100 rounded shadow">
             </div>
+        
+            <section class="promo-section">
+                <div class="promo-cards">
+                    <div class="promo-card yellow-promo">
+                        <span class="promo-label">NEW20</span>
+                        <h3 class="promo-title">15% OFF</h3>
+                        <p class="promo-text">on your next purchase</p>
+                        <small>Valid until 15/04/2025</small>
+                    </div>
+                    <div class="promo-card pink-promo">
+                        <span class="promo-label">COUPLE</span>
+                        <h3 class="promo-title">20% OFF</h3>
+                        <p class="promo-text">on your next purchase</p>
+                        <small>Valid until 30/04/2025</small>
+                    </div>
+                </div>
+                <button class="see-offers-btn">See All Offers</button>
+            </section>
+            <!-- Image Section -->
+           
         </div>
     </div>
 </div>
@@ -75,20 +116,6 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        function scrollToBooking() {
-            document.getElementById("booking-section").classList.remove("hidden");
-            document.getElementById("booking-section").scrollIntoView({
-                behavior: "smooth"
-            });
-        }
-
-        function scrollToFooter() {
-            document.getElementById("footer").scrollIntoView({
-                behavior: "smooth"
-            });
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -100,13 +100,7 @@ img {
     transition: margin-left 0.3s ease;
 }
 
-#content {
-    margin-top: 70px;
-    background: white;
-    padding: 30px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-}
+
 
 /* ---------- Footer ---------- */
 .footer-container {
@@ -257,5 +251,194 @@ button[disabled] {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+
+
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+/* Stats Section */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    padding: 15px;
+    border-radius: 50%;
+    color: white;
+}
+
+.stat-orange {
+    background-color: #ff9800;
+}
+
+.stat-blue {
+    background-color: #007bff;
+}
+
+.stat-text h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.stat-text p {
+    margin: 5px 0 0;
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Promo Section */
+.promo-section {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f5f5f5; /* Light grey to blend with the design */
+}
+
+/* Coupon Wrapper */
+.promo-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.promo-card {
+    position: relative;
+    padding: 20px;
+    min-width: 300px;
+    border-radius: 12px;
+    text-align: center;
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+/* Coupon Background Colors */
+.yellow-promo {
+    background: #FFC107;
+}
+
+.pink-promo {
+    background: #F48FB1;
+}
+
+/* Diagonal Stripes Border Effect */
+.promo-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: repeating-linear-gradient(
+        -45deg,
+        white,
+        white 5px,
+        rgba(0, 0, 0, 0.1) 5px,
+        rgba(0, 0, 0, 0.1) 10px
+    );
+    border-radius: 12px 12px 0 0;
+}
+
+.promo-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: repeating-linear-gradient(
+        -45deg,
+        white,
+        white 5px,
+        rgba(0, 0, 0, 0.1) 5px,
+        rgba(0, 0, 0, 0.1) 10px
+    );
+    border-radius: 0 0 12px 12px;
+}
+
+/* Coupon Label */
+.promo-label {
+    background: rgba(0, 0, 0, 0.2);
+    color: black;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* Promo Text */
+.promo-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.promo-text {
+    font-size: 1.2rem;
+}
+
+/* Small text */
+small {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+/* Offers Button */
+.see-offers-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.see-offers-btn:hover {
+    background: #388E3C;
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .promo-cards {
+        flex-direction: column;
+        align-items: center;
     }
 }

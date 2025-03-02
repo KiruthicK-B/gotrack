@@ -1,26 +1,38 @@
 const navItems = document.querySelectorAll(".sidebar ul li");
 const content = document.getElementById("content");
+const homeContent = document.querySelector(".home-content"); // Store home content
 const username = document.querySelector(".username");
 
 navItems.forEach(item => {
+    console.log("Found item:", item.textContent); // Debugging line
+
     item.onclick = function () {
-        if (item.textContent.includes("Sign Up / Sign In")) {
+        console.log("Clicked item:", item.textContent); // Debugging line
+
+        if (item.textContent.includes("Sign Up / Sign In")) {  
             loadAuthPage();
+        } else if (item.textContent.includes("Home")) {
+            loadHomePage();
         } else {
             content.innerHTML = `<h2>${item.textContent}</h2><p>Content for ${item.textContent}</p>`;
+            homeContent.style.display = "none";
         }
     };
 });
 
-function scrollToFooter() {
-    document.getElementById("footer").scrollIntoView({ behavior: "smooth" });
+
+function loadHomePage() {
+    content.innerHTML = "";
+    homeContent.style.display = "block"; // Restore home content
 }
 
 function loadAuthPage() {
+    homeContent.style.display = "none"; 
+    console.log("Loading Auth Page..."); // Hide home content
     content.innerHTML = `
         <div class="auth-container animate__animated animate__fadeIn">
             <h2>Sign In</h2>
-            <form onsubmit="return handleSignIn(event)" action="api.php">
+            <form onsubmit="return handleSignIn(event)">
                 <div class="form-group">
                     <label>Email:</label>
                     <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email" required>
@@ -31,13 +43,11 @@ function loadAuthPage() {
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Sign In</button>
             </form>
-
             <div class="social-login">
                 <button class="btn btn-danger w-100 mt-2"><i class="fab fa-google"></i> Continue with Google</button>
                 <button class="btn btn-primary w-100 mt-2"><i class="fab fa-facebook"></i> Continue with Facebook</button>
                 <button class="btn btn-dark w-100 mt-2"><i class="fab fa-microsoft"></i> Continue with Microsoft</button>
             </div>
-
             <p class="mt-3 text-center">
                 Don't have an account? 
                 <span class="signup-link" onclick="askUserType()">Sign Up</span>
@@ -58,7 +68,6 @@ function askUserType() {
 
 function showSignupForm(userType) {
     let extraFields = "";
-    
     if (userType === "Driver") {
         extraFields = `
             <div class="form-group">
@@ -83,29 +92,12 @@ function showSignupForm(userType) {
                 <label>Route Number:</label>
                 <input type="text" class="form-control" placeholder="Enter Route Number" required>
             </div>
-            <div class="form-group">
-                <label>Total Seats Available:</label>
-                <input type="number" class="form-control" placeholder="Enter Total Seats" required>
-            </div>
-            <div class="form-group">
-                <label>Starting Location:</label>
-                <input type="text" class="form-control" placeholder="Enter Starting Location" required>
-            </div>
-            <div class="form-group">
-                <label>Destination:</label>
-                <input type="text" class="form-control" placeholder="Enter Destination" required>
-            </div>
-            <div class="form-group">
-                <label>Intermediate Stops:</label>
-                <textarea class="form-control" name="" placeholder="Enter Stops Separated by Commas"></textarea>
-            </div>
         `;
     }
-
     content.innerHTML = `
         <div class="auth-container animate__animated animate__fadeIn">
             <h2>${userType} Sign Up</h2>
-            <form onsubmit="return handleSignUp(event, '${userType}')" action="api.php">
+            <form onsubmit="return handleSignUp(event, '${userType}')">
                 <div class="form-group">
                     <label>Name:</label>
                     <input type="text" class="form-control" placeholder="Enter your name" required>
@@ -120,6 +112,7 @@ function showSignupForm(userType) {
         </div>
     `;
 }
+
 function handleSignIn(e) {
     e.preventDefault();
     const email = document.getElementById("email").value;
@@ -127,9 +120,7 @@ function handleSignIn(e) {
 
     fetch("auth.php", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: `action=signin&email=${email}&password=${password}`
     })
     .then(res => res.json())
@@ -144,16 +135,12 @@ function handleSignIn(e) {
     .catch(err => console.error(err));
 }
 
-
 function handleSignUp(e, userType) {
     e.preventDefault();
     const formData = new FormData(e.target);
     formData.append("action", userType === "Passenger" ? "register_passenger" : "register_driver");
 
-    fetch("api.php", {
-        method: "POST",
-        body: formData
-    })
+    fetch("api.php", { method: "POST", body: formData })
     .then(res => res.json())
     .then(data => {
         if (data.status === "success") {
@@ -166,32 +153,26 @@ function handleSignUp(e, userType) {
     .catch(err => console.error(err));
 }
 
-
-
 function showSuccessMessage(msg) {
-    content.innerHTML = `
-        <div class="success-message animate__animated animate__fadeIn">${msg}</div>
-    `;
-    setTimeout(() => {
-        content.innerHTML = `
-            <h1>Welcome to GoTrack</h1>
-            <p>Your real-time travel booking platform.</p>
-        `;
-    }, 3000);
+    content.innerHTML = `<div class="success-message animate__animated animate__fadeIn">${msg}</div>`;
+    setTimeout(loadHomePage, 3000);
 }
 
 window.onload = function () {
-    content.innerHTML = `
-        <h1>Welcome to GoTrack</h1>
-        <p>Your real-time travel booking platform.</p>
-    `;
-    username.innerHTML = `Welcome, Guest`;
+    loadHomePage();
 };
 
 
 
 function scrollToBooking() {
+    document.getElementById("booking-section").classList.remove("hidden");
     document.getElementById("booking-section").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function scrollToFooter() {
+    document.getElementById("footer").scrollIntoView({
         behavior: "smooth"
     });
 }
