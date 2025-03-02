@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $user = "root";   // Change this if necessary
-$pass = "Kiruthick@2006";       // Change this if necessary
+$pass = "";       // Change this if necessary
 $db = "gotrack_db";
 $port=3306;  // Make sure this database exists!
 

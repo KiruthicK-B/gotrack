@@ -7,7 +7,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+    .sidebar ul a{
+    text-decoration: none;
+    }
+</style>
 </head>
+
 <body>
     <div class="sidebar">
         <h3><img src="logo.jpg" alt="GoTrack"></h3>
@@ -15,7 +21,11 @@
             <li><i class="fas fa-home"></i> Home</li>
             <li><i class="fas fa-bus"></i> Booking</li>
             <li><i class="fas fa-map"></i> Track Bus</li>
-            <li onclick="scrollToFooter()"><i class="fas fa-bus"></i> Search Bus</li>
+            <li>
+                <a href="Search.html">
+                    <i class="fas fa-bus"></i> Search Bus
+                </a>
+            </li>            
             <li><i class="fas fa-user" ></i> Sign Up / Sign In</li>
         </ul>
     </div>
@@ -32,7 +42,7 @@
         </div>
         <div id="content">
         </div>
-        <div class="home-content py-5">
+    <div class="home-content py-5">
     <div class="container text-center">
         <div class="row align-items-center">
         <section class="stats">
@@ -71,7 +81,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <img src="book.jpeg" alt="Bus Ticket Booking" class="img-fluid w-100 rounded shadow">
+                <img src="book.png" alt="Bus Ticket Booking" class="img-fluid w-100 rounded shadow">
             </div>
         
             <section class="promo-section">
