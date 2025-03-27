@@ -478,3 +478,25 @@ small {
     transform: scale(1.1);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+.user-btn {
+    background: #ff7700;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.user-btn:hover {
+    background: #ff5500;
+}
+.sidebar ul a{
+    text-decoration: none;
+    }
+    .sidebar h3 img {
+    width: 200px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+}
