@@ -1,0 +1,4 @@
+[18-Mar-2025 13:50:47 Europe/Berlin] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'username'@'localhost' (using password: YES) in C:\xampp\htdocs\GoTrack\gotrack\frontend\get_booked_seats.php on line 17
+[18-Mar-2025 13:50:47 Europe/Berlin] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'username'@'localhost' (using password: YES) in C:\xampp\htdocs\GoTrack\gotrack\frontend\save_booking.php on line 17
+[18-Mar-2025 13:51:19 Europe/Berlin] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'username'@'localhost' (using password: NO) in C:\xampp\htdocs\GoTrack\gotrack\frontend\get_booked_seats.php on line 17
+[18-Mar-2025 13:51:25 Europe/Berlin] PHP Warning:  mysqli::__construct(): (HY000/1045): Access denied for user 'username'@'localhost' (using password: NO) in C:\xampp\htdocs\GoTrack\gotrack\frontend\save_booking.php on line 17

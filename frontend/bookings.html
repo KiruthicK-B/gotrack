@@ -1,76 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoTrack</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Route Search</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        .booking-container {
-            background-color: #f9f9f9;
+            background-color: #fff;
             border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-left: 550px;
         }
-        .booking-info {
-            margin-bottom: 25px;
+        .form-group {
+            margin-bottom: 20px;
         }
-        .booking-field {
-            display: flex;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-        .booking-label {
-            width: 150px;
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
+            color: #333;
         }
-        .booking-value {
-            flex-grow: 1;
+        .form-group input {
+            width: 100%;
             padding: 10px;
-            background: #fff;
+            box-sizing: border-box;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
         }
-        .booking-details {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px dashed #ccc;
+        .form-group input:focus {
+            border-color: #ff8c42;
+            outline: none;
         }
-        .action-buttons {
+        .btn {
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #ff8c42;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #e67e22;
+        }
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .results-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width:60%;
+            margin-left: 400px;
+        }
+        .route {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background-color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .route:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .route-header {
             display: flex;
             justify-content: space-between;
-            margin-top: 30px;
+            align-items: center;
+            margin-bottom: 15px;
         }
-        .button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .confirm-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .back-btn {
-            background-color: #f1f1f1;
+        .route-header h3 {
+            margin: 0;
+            font-size: 20px;
             color: #333;
         }
-        .sidebar ul a{
-        text-decoration: none;
+        .route-header .badge {
+            background-color: #ff8c42;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .route-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .route-details p {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .route-details p strong {
+            color: #333;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #ff8c42;
+            position: fixed;
+            height: 100%;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+        .sidebar ul li a:hover {
+            color: #f9f9f9;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -78,114 +160,156 @@
     <div class="sidebar">
         <h3><img src="logo.jpg" alt="GoTrack"></h3>
         <ul>
-            <li>
-                <a href="index.html">
-                    <i class="fas fa-home"></i> Home
-                </a>
-            </li> 
-            <li>
-                    <i class="fas fa-bus"></i> Book Bus
-            </li>
-            <li><i class="fas fa-map"></i> Track Bus</li>
-            <li>
-                <a href="Search.html">
-                    <i class="fas fa-bus"></i> Search Bus
-                </a>
-            </li>            
-            <li><i class="fas fa-user" ></i> Sign Up / Sign In</li>
+            <li><a href="index.php"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#"><i class="fas fa-bus"></i> Book Bus</a></li>
+            <li><a href="map.php"><i class="fas fa-map"></i> Track Bus</a></li>
+            <li><a href="Search.html"><i class="fas fa-bus"></i> Search Bus</a></li>            
+            <li><a href="signin.html"><i class="fas fa-user"></i> Sign Up / Sign In</a></li>
         </ul>
     </div>
-    <div class="booking-container">
-        <h1 id="bookingTitle">Booking Details</h1>
-        
-        <div class="booking-info">
-            <div class="booking-field">
-                <div class="booking-label">Route ID:</div>
-                <div id="routeId" class="booking-value"></div>
+    <div class="container">
+        <h1>Bus Route Search</h1>
+        <form id="searchForm">
+            <div class="form-group">
+                <label for="from">From:</label>
+                <input type="text" id="from" placeholder="Enter starting location">
             </div>
-            
-            <div class="booking-field">
-                <div class="booking-label">From:</div>
-                <div id="fromLocation" class="booking-value"></div>
+            <div class="form-group">
+                <label for="to">To:</label>
+                <input type="text" id="to" placeholder="Enter destination">
             </div>
-            
-            <div class="booking-field">
-                <div class="booking-label">To:</div>
-                <div id="toLocation" class="booking-value"></div>
-            </div>
-        </div>
-        
-        <div class="booking-details">
-            <h2>Passenger Information</h2>
-            
-            <div class="booking-field">
-                <div class="booking-label">Full Name:</div>
-                <input type="text" class="booking-value" placeholder="Enter your full name">
-            </div>
-            
-            <div class="booking-field">
-                <div class="booking-label">Email:</div>
-                <input type="email" class="booking-value" placeholder="Enter your email">
-            </div>
-            
-            <div class="booking-field">
-                <div class="booking-label">Phone:</div>
-                <input type="tel" class="booking-value" placeholder="Enter your phone number">
-            </div>
-            
-            <div class="booking-field">
-                <div class="booking-label">Number of Tickets:</div>
-                <input type="number" class="booking-value" min="1" value="1">
-            </div>
-            
-            <div class="booking-field">
-                <div class="booking-label">Promo Code:</div>
-                <input type="text" class="booking-value" placeholder="Enter promo code (optional)">
-            </div>
-        </div>
-        
-        <div class="action-buttons">
-            <button class="button back-btn" onclick="goBack()">Back to Search</button>
-            <button class="button confirm-btn">Confirm Booking</button>
-        </div>
+            <button type="submit" class="btn" id="searchBtn">Search</button>
+            <div class="error" id="errorMessage"></div>
+        </form>
     </div>
-    
+    <div class="results-container" id="results"></div>
+
     <script>
-        // Function to get URL parameters
-        function getUrlParams() {
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            return {
-                id: urlParams.get('id'),
-                from: urlParams.get('from'),
-                to: urlParams.get('to')
-            };
+        const apiKey = '579b464db66ec23bdd000001108c39b466a947805079e1ce4d796f52';
+        const baseUrl = 'https://api.data.gov.in/resource/1f10d3eb-a425-4246-8800-3f72bf7ad2b0';
+
+        document.getElementById('searchForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent form submission
+
+            const from = document.getElementById('from').value.trim();
+            const to = document.getElementById('to').value.trim();
+
+            if (!from || !to) {
+                showError('Please enter both "From" and "To" locations.');
+                return;
+            }
+
+            clearError();
+            showLoading(true);
+
+            try {
+                const routes = await getRoutes(from, to);
+                displayResults(routes);
+            } catch (error) {
+                showError(`Failed to load routes: ${error.message}`);
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        async function getRoutes(from, to) {
+            const queryParams = new URLSearchParams({
+                'api-key': apiKey,
+                'format': 'json',
+                'limit': '100',
+                'page': '1',
+                ...(from && { 'filters[from]': from }),
+                ...(to && { 'filters[to]': to })
+            });
+
+            const url = `${baseUrl}?${queryParams.toString()}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error('Failed to load bus routes');
+            }
+
+            const data = await response.json();
+
+            if (data.status === 'error') {
+                throw new Error(data.message);
+            }
+
+            return data.records ? data.records.map(route => ({
+                id: route.sl_no,
+                from: route.from,
+                to: route.to,
+                departureTimings: route.departure_timings,
+                ticketPrice: calculateTicketPrice(route.route_length, route.type),
+                distance: `${Math.round(route.route_length)} km`,
+                duration: calculateDuration(route.route_length),
+                depot: route.depot,
+                routeNo: route.route_no_,
+                type: route.type,
+                numberOfServices: route.no_of_service,
+                promoCode: `SETC${new Date().getFullYear()}`,
+                discount: '10%'
+            })) : [];
         }
-        
-        // Function to load route data
-        function loadRouteData() {
-            const params = getUrlParams();
-            
-            // Set the page title with route information
-            document.title = `Booking: ${params.from} to ${params.to}`;
-            
-            // Set the heading with route ID and locations
-            document.getElementById('bookingTitle').textContent = 
-                `Booking for Route #${params.id}: ${params.from} to ${params.to}`;
-            
-            // Fill in the route information
-            document.getElementById('routeId').textContent = params.id;
-            document.getElementById('fromLocation').textContent = params.from;
-            document.getElementById('toLocation').textContent = params.to;
+
+        function calculateTicketPrice(routeLength, type) {
+            const pricePerKm = type === 'ULTRA' ? 0.20 : 0.15;
+            return routeLength * pricePerKm;
         }
-        
-        // Function to go back to search page
-        function goBack() {
-            window.location.href = 'index.html';
+
+        function calculateDuration(routeLength) {
+            const hours = routeLength / 60;
+            const hoursInt = Math.floor(hours);
+            const minutes = Math.round((hours - hoursInt) * 60);
+            return `${hoursInt}h ${minutes}m`;
         }
-        
-        // Load route data when page loads
-        window.onload = loadRouteData;
+
+        function displayResults(routes) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            if (routes.length === 0) {
+                showError('No routes found for the given locations.');
+                return;
+            }
+
+            routes.forEach(route => {
+                const routeDiv = document.createElement('div');
+                routeDiv.className = 'route';
+                routeDiv.innerHTML = `
+                    <div class="route-header">
+                        <h3>Route No: ${route.routeNo}</h3>
+                        <span class="badge">${route.type}</span>
+                    </div>
+                    <div class="route-details">
+                        <p><strong>From:</strong> ${route.from}</p>
+                        <p><strong>To:</strong> ${route.to}</p>
+                        <p><strong>Departure:</strong> ${route.departureTimings}</p>
+                        <p><strong>Duration:</strong> ${route.duration}</p>
+                        <p><strong>Distance:</strong> ${route.distance}</p>
+                        <p><strong>Ticket Price:</strong> ₹${route.ticketPrice.toFixed(2)}</p>
+                        <p><strong>Depot:</strong> ${route.depot}</p>
+                        <p><strong>Services:</strong> ${route.numberOfServices}</p>
+                        <p><strong>Promo Code:</strong> ${route.promoCode}</p>
+                        <p><strong>Discount:</strong> ${route.discount}</p>
+                    </div>
+                `;
+                resultsDiv.appendChild(routeDiv);
+            });
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+        }
+
+        function clearError() {
+            document.getElementById('errorMessage').textContent = '';
+        }
+
+        function showLoading(isLoading) {
+            document.getElementById('searchBtn').disabled = isLoading;
+            document.getElementById('searchBtn').textContent = isLoading ? 'Searching...' : 'Search';
+        }
     </script>
 </body>
 </html>
