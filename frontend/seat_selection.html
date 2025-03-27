@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Selection</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            margin-top: 100px;
+            flex-wrap: wrap;
+            margin-left: 300px;
+        }
+        .bus-layout-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
+        .bus-layout {
+            display: grid;
+            grid-template-columns:1fr 1.5fr 1fr 1fr 1fr;
+            gap: 10px;
+            padding: 10px;
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .available { background-color: #28a745; color: white; }
+        .selected { background-color: #ffc107; color: black; }
+        .booked { background-color: #007bff; color: white; cursor: not-allowed; }
+        .occupied { background-color: #dc3545; color: white; cursor: not-allowed; }
+        .driver {
+            grid-column: span 5;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .legend {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            width: 375px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        select, input {
+            padding: 8px;
+            width: 100%;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #ff7700;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover { background-color: #e26900; }
+        .booked-seat {
+            background-color: #007bff !important;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="bookingTitle">Seat Selection</h1>
+    <div class="sidebar">
+        <h3><img src="logo.jpg" alt="GoTrack"></h3>
+        <ul>
+            <li><a href="index.php"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="booking.html"><i class="fas fa-bus"></i> Book Bus</a></li>
+            <li><a href="map.php"><i class=" fas fa-map"></i> Track Bus</a></li>
+            <li><a href="Search.html"><i class="fas fa-bus"></i> Search Bus</a></li>            
+            <li><a href="signin.html"><i class="fas fa-user"></i> Sign Up / Sign In</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="bus-layout-container">
+            <div class="bus-layout" id="busSeats">
+                <div class="driver">Driver</div>
+            </div>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-box available"></div> Available</div>
+                <div class="legend-item"><div class="legend-box selected"></div> Selected</div>
+                <div class="legend-item"><div class="legend-box booked"></div> Booked</div>
+                <div class="legend-item"><div class="legend-box occupied"></div> Occupied</div>
+            </div>
+        </div>
+        <div class="form-container">
+            <label>Passenger Name:</label>
+            <input type="text" id="name" placeholder="Enter Name">
+            <label>Phone Number:</label>
+            <input type="tel" id="phone" placeholder="Enter Phone Number">
+            <label>Travel Date:</label>
+            <input type="date" id="travelDate">
+            <label>Total Tickets:</label>
+            <input type="text" id="ticketCount" value="0" readonly>
+            <button onclick="confirmBooking()">Confirm Booking</button>
+        </div>
+    </div>
+
+    <script>
+        let bookedSeats = [];
+        let selectedSeats = [];
+        let occupiedSeats = [15, 16, 21, 22]; // Example occupied seats
+
+        // Function to get URL parameters
+        function getUrlParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const pairs = queryString.split('&');
+            pairs.forEach(pair => {
+                const [key, value] = pair.split('=');
+                params[key] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        // Retrieve from, to, and busId from the URL
+        const params = getUrlParams();
+        const fromLocation = params.from;
+        const toLocation = params.to;
+        const busId = params.id;
+
+        // Generate seats
+        function generateSeats() {
+            const busSeatsContainer = document.getElementById('busSeats');
+            busSeatsContainer.innerHTML = '<div class="driver">Driver</div>';
+
+            for (let i = 1; i <= 24; i++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.textContent = i;
+                seat.setAttribute("data-seat-number", i);
+
+                if (occupiedSeats.includes(i)) {
+                    seat.classList.add('occupied');
+                } else if (bookedSeats.includes(i)) {
+                    seat.classList.add('booked-seat');
+                    
+                    seat.style.pointerEvents = "none";
+                } else {
+                    seat.classList.add('available');
+                    seat.addEventListener('click', () => toggleSeat(i, seat));
+                }
+                busSeatsContainer.appendChild(seat);
+            }
+        }
+
+        // Toggle seat selection
+        function toggleSeat(seatNumber, seatElement) {
+            if (selectedSeats.includes(seatNumber)) {
+                selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+                seatElement.classList.remove('selected');
+            } else {
+                selectedSeats.push(seatNumber);
+                seatElement.classList.add('selected');
+            }
+            document.getElementById("ticketCount").value = selectedSeats.length;
+        }
+
+        // Fetch booked seats from the server
+        function fetchBookedSeats() {
+    let travelDate = document.getElementById("travelDate").value;
+    if (!travelDate) return; // Prevent fetching if no date selected
+
+    fetch(`get_booked_seats.php?travelDate=${travelDate}&from=${fromLocation}&to=${toLocation}&busId=${busId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok: " + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data.success) {
+                throw new Error("Server error: " + data.message);
+            }
+            bookedSeats = data.bookedSeats.map(Number);
+            generateSeats(); // Regenerate seats with updated booked seats
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+            alert("Failed to fetch booked seats. Check the console for details.");
+        });
+}
+
+        // Confirm booking
+        function confirmBooking() {
+    let name = document.getElementById("name").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let travelDate = document.getElementById("travelDate").value.trim();
+    let seats = selectedSeats;
+
+    if (!name || !phone || !travelDate || seats.length === 0) {
+        alert("Please fill all fields and select at least one seat.");
+        return;
+    }
+
+    fetch("save_booking.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone, travelDate, seats, from: fromLocation, to: toLocation, busId })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok: " + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (!data.success) {
+            throw new Error("Server error: " + data.message);
+        }
+        alert("Booking Successful!");
+        window.location.href = "index.php";
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Failed to confirm booking. Check the console for details.");
+    });
+}
+
+        // Initialize on page load
+        window.onload = () => {
+            fetchBookedSeats();
+            generateSeats();
+        };
+
+        // Fetch booked seats when travel date changes
+        document.getElementById("travelDate").addEventListener("change", fetchBookedSeats);
+    </script>
+</body>
+</html>
